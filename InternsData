@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scientist Data</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: green ; 
+    }
+    input {
+      margin-bottom: 10px;
+      padding: 5px;
+      width: 200px;
+      display: block;
+    }
+    .intern-table, .intern-details {
+      display: none;
+    }
+    .dropdown-button {
+      cursor: pointer;
+      font-size: 10px;
+      float: right;
+      background: none;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Scientist Information Table</h2>
+
+<input type="text" id="searchInput" placeholder="Search scientist..." onkeyup="searchScientist()"/>
+
+<table id="scientistTable">
+  <thead>
+    <tr>
+      <th>SNo.</th>
+      <th>Scientist</th>
+      <th>Education Qualification</th>
+      <th>Division</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Sunil Sachdeva -->
+    <tr>
+      <td>1</td>
+      <td>Mr. Sunil Sachdeva <button class="dropdown-button" onclick="toggleInterns('sunil sachdeva')">▼</button></td>
+      <td>PhD in Physics</td>
+      <td>Cyrocooler</td>
+    </tr>
+    <tr id="sunil sachdeva" class="intern-table">
+      <td colspan="4">
+        <table>
+          <thead>
+            <tr>
+              <th>
+                Number of Interns 
+                <button class="dropdown-button" onclick="toggleInternDetails('sunil sachdeva-interns')">▼</button>
+              </th>
+              <th>
+                Present Interns 
+                <button class="dropdown-button" onclick="toggleInternDetails('sunil sachdeva-interns')">▼</button>
+              </th>
+              <th>
+                Total Interns Till Date 
+                <button class="dropdown-button" onclick="toggleInternDetails('sunil sachdeva-interns')">▼</button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>5</td>
+              <td>3</td>
+              <td>28</td>
+            </tr>
+          </tbody>
+        </table>
+        <table id="sunil sachdeva-interns" class="intern-details">
+          <thead>
+            <tr>
+              <th>Name of Intern</th>
+              <th>Educational Information</th>
+              <th>Division Applied</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Sourabha Yadav</td><td>Bachelors in Mechanical Engineering</td><td>Cyrocooler</td></tr>
+            <tr><td>Richa Priti</td><td>Bachelors in Mechanical Engineering</td><td>Cyrocooler</td></tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+    <!-- Deepti Jain -->
+    <tr>
+      <td>2</td>
+      <td>Mrs. Deepti Jain <button class="dropdown-button" onclick="toggleInterns('Deepti Jain')">▼</button></td>
+      <td>PhD in Physics</td>
+      <td>Laser</td>
+    </tr>
+    <tr id="Deepti Jain" class="intern-table">
+      <td colspan="4">
+        <table>
+          <thead>
+            <tr>
+              <th>
+                Number of Interns 
+                <button class="dropdown-button" onclick="toggleInternDetails('Deepti Jain-interns')">▼</button>
+              </th>
+              <th>
+                Present Interns 
+                <button class="dropdown-button" onclick="toggleInternDetails('Deepti Jain-interns')">▼</button>
+              </th>
+              <th>
+                Total Interns Till Date 
+                <button class="dropdown-button" onclick="toggleInternDetails('Deepti Jain-interns')">▼</button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>3</td>
+              <td>1</td>
+              <td>10</td>
+            </tr>
+          </tbody>
+        </table>
+        <table id="Deepti Jain-interns" class="intern-details">
+          <thead>
+            <tr>
+              <th>Name of Intern</th>
+              <th>Educational Information</th>
+              <th>Division Applied</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Kumari Diksha</td><td>Bachelors in Electronics </td><td>Laser</td></tr>
+            
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+  function toggleInterns(id) {
+    const row = document.getElementById(id);
+    const button = row.previousElementSibling.querySelector(".dropdown-button");
+    if (row.style.display === "none" || row.style.display === "") {
+      row.style.display = "table-row";
+      button.textContent = "▲";
+    } else {
+      row.style.display = "none";
+      button.textContent = "▼";
+    }
+  }
+
+  function toggleInternDetails(id) {
+    const details = document.getElementById(id);
+    const buttons = document.querySelectorAll(`[onclick="toggleInternDetails('${id}')"]`);
+    if (details.style.display === "none" || details.style.display === "") {
+      details.style.display = "table";
+      buttons.forEach(btn => btn.textContent = "▲");
+    } else {
+      details.style.display = "none";
+      buttons.forEach(btn => btn.textContent = "▼");
+    }
+  }
+
+  function searchScientist() {
+    const input = document.getElementById("searchInput").value.toLowerCase();
+    const rows = document.querySelectorAll("#scientistTable tbody tr");
+
+    for (let i = 0; i < rows.length; i++) {
+      if (!rows[i].querySelector("td")) continue;
+      const nameCell = rows[i].cells[1];
+      if (nameCell) {
+        const name = nameCell.innerText.toLowerCase();
+        const match = name.includes(input);
+        rows[i].style.display = match ? "" : "none";
+        if (rows[i + 1] && rows[i + 1].classList.contains("intern-table")) {
+          rows[i + 1].style.display = match ? "" : "none";
+        }
+      }
+    }
+  }
+</script>
+
+</body>
+</html>
